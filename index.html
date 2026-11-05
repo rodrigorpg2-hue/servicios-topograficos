@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Servicios Topográficos | Cotiza en línea</title>
+<meta name="description" content="Servicios topográficos: levantamientos, replanteo, nivelación, cubicaciones, dron y más. Cotiza en línea con información precisa.">
+<style>
+  :root {
+    --bg:#f6f4ee; --panel:#fff; --text:#1d2a22; --muted:#566259; --accent:#c2410c; --green:#1f4d3a;
+    --line:#dcd8cb; --contour:#cfd6c6; --ok:#15803d; --err:#b91c1c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#121a15; --panel:#1a251e; --text:#e8ece6; --muted:#9aa89e; --accent:#fb923c; --green:#86c3a3; --line:#2a3a30; --contour:#25352b; --ok:#4ade80; --err:#f87171; }
+  }
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  header.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  header.nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+  .logo{font-weight:800;letter-spacing:.03em;color:var(--green)} .logo span{color:var(--accent)}
+  nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:.95rem} nav a:hover{color:var(--accent)}
+  .hero{position:relative;overflow:hidden;padding:84px 0 64px}
+  .hero svg.bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .hero .wrap{position:relative;z-index:1}
+  .tag{color:var(--accent);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:.8rem}
+  h1{font-size:clamp(2.1rem,6vw,3.5rem);line-height:1.08;margin:10px 0 16px;max-width:760px}
+  .hero p{color:var(--muted);font-size:1.1rem;max-width:600px}
+  .btns{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:700;border:2px solid var(--accent);cursor:pointer;font:inherit;font-weight:700}
+  .btn.primary{background:var(--accent);color:#fff} .btn.ghost{color:var(--accent);background:transparent}
+  .btn[disabled]{opacity:.5;cursor:not-allowed}
+  .counters{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-top:40px}
+  .counter{border-left:3px solid var(--accent);padding-left:12px}
+  .counter b{display:block;font-size:1.7rem;color:var(--green)} .counter span{color:var(--muted);font-size:.9rem}
+  section{padding:60px 0} section.alt{background:color-mix(in srgb,var(--panel) 60%,var(--bg));border-block:1px solid var(--line)}
+  h2{font-size:1.8rem;margin:0 0 8px} .sub{color:var(--muted);margin:0 0 26px;max-width:640px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+  .chip{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:7px 16px;cursor:pointer;font:inherit;font-size:.9rem}
+  .chip.on{background:var(--green);color:var(--bg);border-color:var(--green)}
+  .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+  .card .img{aspect-ratio:16/10;background:var(--contour);cursor:pointer} .card .img svg{width:100%;height:100%;display:block}
+  .card .body{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .card h3{margin:0;font-size:1.1rem;color:var(--green)} .card p{margin:0;color:var(--muted);font-size:.93rem}
+  .card .row{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+  .card .row .btn{padding:8px 14px;font-size:.88rem}
+  .tagpill{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent)}
+  .steps{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));counter-reset:s}
+  .step{counter-increment:s;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .step::before{content:counter(s);display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--green);color:var(--bg);font-weight:800;margin-bottom:8px}
+  .step h3{margin:0 0 4px;font-size:1.02rem} .step p{margin:0;color:var(--muted);font-size:.92rem}
+  /* Modal */
+  dialog{border:0;border-radius:16px;padding:0;max-width:640px;width:calc(100% - 32px);background:var(--panel);color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  dialog::backdrop{background:rgba(0,0,0,.55)}
+  dialog .img{aspect-ratio:16/8;background:var(--contour)} dialog .img svg{width:100%;height:100%;display:block}
+  dialog .in{padding:22px} dialog h3{margin:0 0 8px;color:var(--green);font-size:1.4rem}
+  dialog ul{padding-left:18px;color:var(--muted)} .x{position:absolute;right:12px;top:10px;background:rgba(0,0,0,.5);color:#fff;border:0;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:1.1rem}
+  /* Cotizador */
+  .quote{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px}
+  .progress{display:flex;gap:6px;margin-bottom:22px}
+  .progress div{flex:1;text-align:center;font-size:.8rem;font-weight:700;color:var(--muted);padding-bottom:8px;border-bottom:4px solid var(--line)}
+  .progress div.on{color:var(--green);border-color:var(--accent)}
+  .progress div.done{border-color:var(--green)}
+  .pane{display:none} .pane.on{display:block}
+  fieldset{border:0;padding:0;margin:0 0 18px} legend{font-weight:800;color:var(--green);margin-bottom:10px;padding:0}
+  .f2{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  label{display:block;font-size:.86rem;font-weight:600}
+  label small{font-weight:400;color:var(--muted)}
+  input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:inherit;margin-top:4px}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+  input.bad,select.bad{border-color:var(--err)}
+  .err{color:var(--err);font-size:.8rem;min-height:1em;display:block;font-weight:500}
+  textarea{min-height:90px;resize:vertical}
+  .pick{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .pick label{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;background:var(--bg)}
+  .pick label:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--bg))}
+  .pick input{width:auto;margin:0}
+  .pick .mini{width:54px;height:36px;border-radius:6px;overflow:hidden;flex:none} .pick .mini svg{width:100%;height:100%;display:block}
+  .cond{border:1px dashed var(--accent);border-radius:12px;padding:14px;margin-bottom:14px}
+  .cond h4{margin:0 0 10px;color:var(--accent);font-size:.95rem}
+  .nav-btns{display:flex;justify-content:space-between;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .summary{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px;font-size:.92rem;white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;max-height:380px;overflow:auto}
+  .est{margin-top:14px;border-left:4px solid var(--green);padding:10px 14px;background:color-mix(in srgb,var(--green) 10%,var(--bg));border-radius:8px;font-size:.92rem}
+  .ok{color:var(--ok);font-weight:700}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--green);color:var(--bg);padding:10px 18px;border-radius:10px;font-weight:700;opacity:0;pointer-events:none;transition:.3s;z-index:50}
+  .toast.on{opacity:1}
+  footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:.9rem;text-align:center}
+  .hint{font-size:.82rem;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="logo">TOPO<span>GRAFÍA</span> SERVICIOS</div>
+    <nav><a href="#servicios">Servicios</a><a href="#proceso">Proceso</a><a href="#cotizar">Cotizar</a></nav>
+  </div>
+</header>
+
+<div class="hero">
+  <svg class="bg" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" fill="none" stroke="var(--contour)" stroke-width="1.6">
+    <path d="M-20 330C150 240 260 330 420 250S700 180 1020 260"/><path d="M-20 300C150 210 260 300 420 220S700 150 1020 230"/>
+    <path d="M-20 270C150 180 260 270 420 190S700 120 1020 200"/><path d="M-20 240C150 150 260 240 420 160S700 90 1020 170"/>
+    <path d="M-20 210C150 120 260 210 420 130S700 60 1020 140"/><path d="M-20 180C150 90 260 180 420 100S700 30 1020 110"/>
+    <path d="M-20 360C150 270 260 360 420 280S700 210 1020 290"/><path d="M-20 390C150 300 260 390 420 310S700 240 1020 320"/>
+  </svg>
+  <div class="wrap">
+    <div class="tag">Topografía · Geomática · Ingeniería</div>
+    <h1>Mediciones precisas para proyectos que no admiten errores</h1>
+    <p>Elige tu servicio, completa el cotizador con los datos de tu terreno y recibe una propuesta ajustada a tu proyecto.</p>
+    <div class="btns"><a class="btn primary" href="#cotizar">Cotizar ahora</a><a class="btn ghost" href="#servicios">Ver servicios</a></div>
+    <div class="counters">
+      <div class="counter"><b data-n="8">0</b><span>servicios topográficos</span></div>
+      <div class="counter"><b data-n="24" data-s="h">0</b><span>respuesta a cotizaciones</span></div>
+      <div class="counter"><b data-n="5" data-s=" cm">0</b><span>precisión GNSS típica</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="servicios">
+  <div class="wrap">
+    <h2>Nuestros servicios</h2>
+    <p class="sub">Filtra por rubro, revisa el detalle de cada servicio y agrégalo directo a tu cotización.</p>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="proceso" class="alt">
+  <div class="wrap">
+    <h2>Cómo trabajamos</h2>
+    <p class="sub">Un proceso claro, de la consulta a la entrega de planos.</p>
+    <div class="steps">
+      <div class="step"><h3>Cotizas en línea</h3><p>Describes terreno, superficie y entregables.</p></div>
+      <div class="step"><h3>Propuesta</h3><p>Revisamos tu información y enviamos alcance, plazo y valor.</p></div>
+      <div class="step"><h3>Terreno</h3><p>Medición con equipos calibrados y puntos de control.</p></div>
+      <div class="step"><h3>Procesamiento</h3><p>Cálculo, dibujo y control de calidad.</p></div>
+      <div class="step"><h3>Entrega</h3><p>Planos y modelos en los formatos solicitados.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cotizar">
+  <div class="wrap">
+    <h2>Cotizador en línea</h2>
+    <p class="sub">Entre más preciso seas, más ajustada será la propuesta. Tus datos se guardan en este navegador mientras completas el formulario.</p>
+    <div class="quote">
+      <div class="progress" id="progress"><div>1. Contacto</div><div>2. Servicios</div><div>3. Terreno y entregables</div><div>4. Revisión</div></div>
+
+      <form id="form" novalidate>
+        <div class="pane" data-p="0">
+          <fieldset><legend>Datos de contacto</legend>
+            <div class="f2">
+              <label>Nombre completo *<input name="nombre" autocomplete="name" required><span class="err"></span></label>
+              <label>Tipo de cliente *
+                <select name="tipo" required><option value="">Selecciona…</option><option>Particular</option><option>Empresa</option><option>Constructora / Inmobiliaria</option><option>Minería / Energía</option><option>Institución pública</option></select><span class="err"></span></label>
+              <label>Empresa u organización <small>(si aplica)</small><input name="empresa" autocomplete="organization"></label>
+              <label>Correo electrónico *<input name="email" type="email" autocomplete="email" required><span class="err"></span></label>
+              <label>Teléfono / WhatsApp *<input name="tel" type="tel" autocomplete="tel" placeholder="+56 9 1234 5678" required><span class="err"></span></label>
+              <label>Medio de contacto preferido
+                <select name="medio"><option>Correo</option><option>WhatsApp</option><option>Llamada</option></select></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="pane" data-p="1">
+          <fieldset><legend>¿Qué servicios necesitas? *</legend>
+            <div class="pick" id="pick"></div><span class="err" id="errSvc"></span>
+          </fieldset>
+        </div>
+
+        <div class="pane" data-p="2">
+          <fieldset><legend>Ubicación y terreno</legend>
+            <div class="f2">
+              <label>Región *<select name="region" required></select><span class="err"></span></label>
+              <label>Comuna *<input name="comuna" required><span class="err"></span></label>
+              <label>Dirección o sector *<input name="direccion" placeholder="Calle, ruta km, fundo, rol de avalúo…" required><span class="err"></span></label>
+              <label>Coordenadas <small>(opcional)</small><input name="coord" placeholder="-34.1700, -70.7400"></label>
+              <label>Superficie aproximada *<input name="sup" type="number" min="0" step="any" required><span class="err"></span></label>
+              <label>Unidad<select name="unidad"><option>m²</option><option>hectáreas</option><option>km lineales</option></select></label>
+              <label>Tipo de terreno *<select name="relieve" required><option value="">Selecciona…</option><option>Plano</option><option>Ondulado</option><option>Accidentado / cerro</option><option>Con vegetación densa</option><option>Urbano / construido</option></select><span class="err"></span></label>
+              <label>Acceso al sitio<select name="acceso"><option>Acceso vehicular directo</option><option>Camino de tierra</option><option>Solo a pie</option><option>Requiere autorización / inducción</option></select></label>
+            </div>
+          </fieldset>
+
+          <div id="conds"></div>
+
+          <fieldset><legend>Especificaciones técnicas</legend>
+            <div class="f2">
+              <label>Sistema de coordenadas<select name="datum"><option>UTM WGS84 huso 19S</option><option>UTM SIRGAS-Chile huso 19S</option><option>UTM WGS84 huso 18S</option><option>Local / a definir</option><option>No sé, que lo definan</option></select></label>
+              <label>Precisión requerida<select name="prec"><option>Estándar (±5 cm)</option><option>Alta (±2 cm)</option><option>Referencial (±20 cm)</option><option>No sé</option></select></label>
+              <label>Uso del trabajo *<select name="uso" required><option value="">Selecciona…</option><option>Permiso municipal / DOM</option><option>Proyecto de ingeniería</option><option>Compraventa / regularización</option><option>Control de avance de obra</option><option>Estudio o diagnóstico</option><option>Otro</option></select><span class="err"></span></label>
+              <label>¿Cuentas con planos o información previa?<select name="previo"><option>No</option><option>Sí, planos en PDF</option><option>Sí, archivos DWG</option><option>Sí, levantamiento anterior</option></select></label>
+              <label>Fecha deseada de inicio<input name="inicio" type="date"></label>
+              <label>Plazo de entrega<select name="plazo"><option>Sin urgencia (2-3 semanas)</option><option>Normal (1-2 semanas)</option><option>Urgente (menos de 1 semana)</option></select></label>
+            </div>
+            <div style="margin-top:14px"><div style="font-weight:700;font-size:.86rem;margin-bottom:6px">Entregables</div>
+              <div class="pick" id="entregables"></div></div>
+            <label style="margin-top:14px">Observaciones<textarea name="obs" placeholder="Restricciones de horario, riesgos del sitio, hitos existentes, contacto en terreno…"></textarea></label>
+          </fieldset>
+        </div>
+
+        <div class="pane" data-p="3">
+          <fieldset><legend>Revisa tu solicitud</legend>
+            <div class="summary" id="summary"></div>
+            <div class="est" id="est"></div>
+            <p class="hint">Puedes adjuntar planos, KMZ o fotos respondiendo el correo que se genera.</p>
+            <div class="btns">
+              <button type="button" class="btn primary" id="sendMail">Enviar por correo</button>
+              <button type="button" class="btn ghost" id="sendWa">Enviar por WhatsApp</button>
+              <button type="button" class="btn ghost" id="copy">Copiar solicitud</button>
+              <button type="button" class="btn ghost" id="dl">Descargar (.txt)</button>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="nav-btns">
+          <button type="button" class="btn ghost" id="prev">← Anterior</button>
+          <button type="button" class="btn primary" id="next">Siguiente →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<dialog id="dlg">
+  <button class="x" id="dlgClose" aria-label="Cerrar">✕</button>
+  <div class="img" id="dlgImg"></div>
+  <div class="in"><span class="tagpill" id="dlgTag"></span><h3 id="dlgTitle"></h3><p id="dlgDesc"></p><ul id="dlgList"></ul>
+    <div class="btns"><button class="btn primary" id="dlgAdd">Agregar a mi cotización</button></div></div>
+</dialog>
+<div class="toast" id="toast"></div>
+
+<footer><div class="wrap">© <span id="y"></span> Topografía Servicios · Todos los derechos reservados</div></footer>
+
+<script>
+/* ---------- CONFIGURACIÓN (editar antes de publicar) ---------- */
+var CONFIG = {
+  correo: 'contacto@tuempresa.cl',     // correo que recibe las cotizaciones
+  whatsapp: '56900000000',             // número con código de país, sin + ni espacios
+  empresa: 'Topografía Servicios'
+};
+
+/* ---------- ILUSTRACIONES SVG (una por servicio) ---------- */
+var S = {
+  sky:'<rect width="400" height="250" fill="#cfe6ee"/><circle cx="330" cy="50" r="22" fill="#fcd34d"/>',
+  hills:'<path d="M0 170 Q100 110 200 160 T400 140 V250 H0Z" fill="#7aa383"/><path d="M0 200 Q120 160 240 195 T400 185 V250 H0Z" fill="#4f7a5c"/>',
+  tripod:function(x,y,s){s=s||1;return '<g transform="translate('+x+','+y+') scale('+s+')" stroke="#1f2937" stroke-width="3" fill="none" stroke-linecap="round"><path d="M0 0 L-22 52 M0 0 L22 52 M0 0 L0 54"/><rect x="-11" y="-30" width="22" height="26" rx="3" fill="#f59e0b" stroke="#92400e"/><circle cx="0" cy="-18" r="5" fill="#1e293b"/></g>'},
+  svgs:{
+    levantamiento:function(){return S.sky+S.hills+'<g stroke="#c2410c" stroke-width="1.5" fill="none" opacity=".8"><path d="M20 215Q120 180 220 210T390 200"/><path d="M20 228Q120 194 220 224T390 214"/></g>'+S.tripod(130,150,1.1)+'<g fill="#c2410c"><circle cx="250" cy="195" r="5"/><circle cx="310" cy="178" r="5"/><circle cx="345" cy="210" r="5"/></g><path d="M250 195L310 178L345 210" stroke="#c2410c" stroke-dasharray="5 4" fill="none" stroke-width="2"/>'},
+    replanteo:function(){return S.sky+'<rect y="170" width="400" height="80" fill="#a8a29e"/>'+'<rect x="150" y="185" width="110" height="50" fill="none" stroke="#c2410c" stroke-width="3" stroke-dasharray="8 5"/>'+[150,260].map(function(x){return [185,235].map(function(y){return '<g><rect x="'+(x-3)+'" y="'+(y-22)+'" width="6" height="22" fill="#f59e0b"/><rect x="'+(x-3)+'" y="'+(y-22)+'" width="6" height="7" fill="#dc2626"/></g>'}).join('')}).join('')+S.tripod(80,130,1.1)+'<path d="M95 165 L150 185" stroke="#dc2626" stroke-width="2" stroke-dasharray="4 4"/>'},
+    nivelacion:function(){return S.sky+'<path d="M0 190 H400 V250 H0Z" fill="#8b7355"/>'+S.tripod(90,140,1.1)+'<g><rect x="300" y="100" width="14" height="90" fill="#fde68a" stroke="#92400e" stroke-width="2"/>'+[110,125,140,155,170].map(function(y){return '<line x1="300" x2="314" y1="'+y+'" y2="'+y+'" stroke="#92400e" stroke-width="2"/>'}).join('')+'</g><path d="M105 122 H300" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/><text x="150" y="112" font-size="14" fill="#dc2626" font-family="monospace">cota 0.00</text>'},
+    cubicacion:function(){return S.sky+'<rect y="190" width="400" height="60" fill="#8b7355"/><path d="M60 190 L130 110 L200 190Z" fill="#a16207"/><path d="M180 190 L260 85 L340 190Z" fill="#b45309"/><g stroke="#1f2937" stroke-width="1" opacity=".5">'+[0,1,2,3,4,5].map(function(i){return '<path d="M'+(60+i*30)+' 190 L'+(130+i*8)+' 120"/>'}).join('')+'</g><text x="150" y="228" font-size="15" fill="#fff" font-family="monospace" font-weight="bold">V = 12.480 m³</text>'+S.tripod(360,160,.8)},
+    dron:function(){return S.sky+S.hills+'<g transform="translate(200,70)"><rect x="-22" y="-6" width="44" height="12" rx="6" fill="#1f2937"/><path d="M-22 -6L-46 -18M22 -6L46 -18M-22 6L-46 18M22 6L46 18" stroke="#1f2937" stroke-width="3"/>'+[[-46,-18],[46,-18],[-46,18],[46,18]].map(function(p){return '<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="14" ry="3" fill="#475569"/>'}).join('')+'<circle cy="9" r="4" fill="#38bdf8"/></g><path d="M200 82 L130 190 M200 82 L270 190" stroke="#fde047" stroke-width="2" stroke-dasharray="5 4" opacity=".9"/><path d="M130 190 L270 190" stroke="#fde047" stroke-width="3"/>'},
+    loteo:function(){return S.sky+'<rect y="110" width="400" height="140" fill="#9ca3af" opacity=".25"/><rect x="40" y="120" width="320" height="110" fill="#86efac" stroke="#166534" stroke-width="3"/>'+'<path d="M147 120V230M253 120V230M40 175H360" stroke="#166534" stroke-width="2.5"/>'+'<g font-family="monospace" font-size="16" fill="#14532d" font-weight="bold"><text x="85" y="152">L1</text><text x="190" y="152">L2</text><text x="295" y="152">L3</text><text x="85" y="208">L4</text><text x="190" y="208">L5</text><text x="295" y="208">L6</text></g>'+S.tripod(370,150,.7)},
+    control:function(){return S.sky+'<rect x="150" y="60" width="90" height="170" fill="#9ca3af" stroke="#4b5563" stroke-width="3"/><g fill="#e5e7eb">'+[0,1,2,3].map(function(r){return [0,1,2].map(function(c){return '<rect x="'+(160+c*28)+'" y="'+(72+r*38)+'" width="18" height="24"/>'}).join('')}).join('')+'</g><path d="M150 60 L158 36" stroke="#c2410c" stroke-width="3"/><rect y="230" width="400" height="20" fill="#6b7280"/><g fill="#c2410c"><circle cx="150" cy="70" r="6"/><circle cx="240" cy="70" r="6"/><circle cx="150" cy="210" r="6"/><circle cx="240" cy="210" r="6"/></g>'+S.tripod(320,170,1)+'<path d="M305 150 L248 72" stroke="#dc2626" stroke-dasharray="5 4" stroke-width="2"/>'},
+    gnss:function(){return '<rect width="400" height="250" fill="#0f172a"/><g fill="#fff" opacity=".7"><circle cx="40" cy="30" r="1.5"/><circle cx="120" cy="60" r="1.5"/><circle cx="330" cy="30" r="1.5"/><circle cx="370" cy="90" r="1.5"/><circle cx="70" cy="110" r="1.5"/></g>'+[[90,50],[200,30],[310,60]].map(function(p){return '<g transform="translate('+p[0]+','+p[1]+')"><rect x="-16" y="-8" width="32" height="16" fill="#cbd5e1"/><rect x="-34" y="-5" width="16" height="10" fill="#38bdf8"/><rect x="18" y="-5" width="16" height="10" fill="#38bdf8"/></g><path d="M'+p[0]+' '+(p[1]+10)+' L200 190" stroke="#fde047" stroke-dasharray="4 4" opacity=".7"/>'}).join('')+'<rect y="215" width="400" height="35" fill="#166534"/><g transform="translate(200,190)"><rect x="-4" y="0" width="8" height="26" fill="#475569"/><ellipse cx="0" cy="-2" rx="14" ry="7" fill="#f59e0b" stroke="#92400e" stroke-width="2"/></g>'}
+  }
+};
+function art(key){return '<svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de '+key+'">'+S.svgs[key]()+'</svg>';}
+
+/* ---------- DATOS DE SERVICIOS ---------- */
+var SERVICIOS = [
+ {id:'levantamiento',nombre:'Levantamiento topográfico',rubro:'Construcción',base:350000,desc:'Planimetría y altimetría de terrenos con curvas de nivel, deslindes, construcciones y servicios existentes.',pts:['Curvas de nivel a la equidistancia que necesites','Ubicación de deslindes, edificaciones y arborización','Plano en DWG y PDF georreferenciado']},
+ {id:'replanteo',nombre:'Replanteo de obras',rubro:'Construcción',base:280000,desc:'Traspaso de ejes, cotas y puntos del proyecto al terreno para edificios, caminos, redes y fundaciones.',pts:['Marcación de ejes y vértices con estacas o clavos','Control de alineación y cotas','Registro fotográfico y acta de replanteo']},
+ {id:'nivelacion',nombre:'Nivelación geométrica',rubro:'Construcción',base:200000,desc:'Control de cotas y pendientes para drenaje, pavimentos, canales y montaje de estructuras.',pts:['Nivelación de ida y vuelta con cierre','Control de pendientes de drenaje y canales','Cuadro de cotas y perfiles']},
+ {id:'cubicacion',nombre:'Cubicaciones y volúmenes',rubro:'Minería',base:320000,desc:'Cálculo de movimientos de tierra, acopios y botaderos, con comparación entre levantamientos sucesivos.',pts:['Volúmenes de corte y relleno','Medición de acopios y botaderos','Informe comparativo entre fechas']},
+ {id:'dron',nombre:'Fotogrametría con dron',rubro:'Minería',base:450000,desc:'Ortomosaicos, modelos digitales de terreno y nubes de puntos de grandes superficies en poco tiempo.',pts:['Ortomosaico de alta resolución','Modelo digital de terreno y superficie','Nube de puntos y curvas de nivel']},
+ {id:'loteo',nombre:'Subdivisiones y loteos',rubro:'Inmobiliario',base:420000,desc:'Planos de subdivisión, fusión y deslindes con la documentación técnica para trámites municipales.',pts:['Planos para DOM / SAG según corresponda','Amojonamiento de vértices','Cuadro de superficies por lote']},
+ {id:'control',nombre:'Control de obra y deformaciones',rubro:'Construcción',base:380000,desc:'Monitoreo de asentamientos, verticalidad y desplazamientos en estructuras, taludes y excavaciones.',pts:['Prismas y puntos de control monitoreados','Campañas periódicas de medición','Reportes de deformación con gráficos']},
+ {id:'gnss',nombre:'Georreferenciación GNSS',rubro:'Ingeniería',base:250000,desc:'Amarre de proyectos a la red geodésica y apoyo de puntos de control para cualquier levantamiento.',pts:['Puntos de control con receptor GNSS','Postproceso y ajuste de coordenadas','Monografías de los puntos']}
+];
+var RUBROS=['Todos'].concat(Array.from(new Set(SERVICIOS.map(function(s){return s.rubro}))));
+var REGIONES=['Arica y Parinacota','Tarapacá','Antofagasta','Atacama','Coquimbo','Valparaíso','Metropolitana','O’Higgins','Maule','Ñuble','Biobío','La Araucanía','Los Ríos','Los Lagos','Aysén','Magallanes'];
+var ENTREGABLES=['Plano DWG','Plano PDF','Archivo KMZ / Google Earth','Nube de puntos (LAS/XYZ)','Ortomosaico (GeoTIFF)','Informe técnico','Cuadro de coordenadas (Excel)','Modelo 3D'];
+var CONDICIONALES={
+ levantamiento:{t:'Levantamiento',c:[['equidistancia','Equidistancia de curvas','select',['0,5 m','1 m','2 m','5 m']],['detalles','Detalles a levantar','text','Edificios, árboles, postes, cercos…']]},
+ replanteo:{t:'Replanteo',c:[['obra','Tipo de obra','select',['Edificio / casa','Camino o pavimento','Redes húmedas / secas','Fundaciones / pilotes','Otra']],['puntos','N.º aproximado de puntos a replantear','number','']]},
+ nivelacion:{t:'Nivelación',c:[['largo','Longitud o recorrido a nivelar (m)','number',''],['ptoref','¿Existe punto de cota de referencia (BM)?','select',['Sí','No','No sé']]]},
+ cubicacion:{t:'Cubicaciones',c:[['acopios','N.º de acopios o sectores','number',''],['base','Tiene levantamiento base anterior','select',['Sí','No']]]},
+ dron:{t:'Fotogrametría con dron',c:[['gsd','Resolución deseada (GSD)','select',['2 cm/píxel','5 cm/píxel','10 cm/píxel','No sé']],['vuelo','Restricciones de vuelo cercanas (aeródromo, zona poblada)','select',['No hay','Sí, hay aeródromo','Zona poblada','No sé']]]},
+ loteo:{t:'Subdivisión / loteo',c:[['lotes','N.º de lotes proyectados','number',''],['rol','Rol de avalúo del predio','text','000-00']]},
+ control:{t:'Control de obra y deformaciones',c:[['elemento','Elemento a monitorear','select',['Edificio','Talud / excavación','Muro de contención','Puente / estructura','Otro']],['frecuencia','Frecuencia de medición','select',['Semanal','Quincenal','Mensual','Única vez']]]},
+ gnss:{t:'Georreferenciación GNSS',c:[['npc','N.º de puntos de control','number',''],['ppp','Necesita certificación de precisión','select',['Sí','No']]]}
+};
+
+/* ---------- UTILIDADES ---------- */
+var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.from((r||document).querySelectorAll(s))};
+var state={svc:new Set(),step:0,filter:'Todos',current:null};
+var form=$('#form');
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove('on')},2200);}
+$('#y').textContent=new Date().getFullYear();
+
+/* ---------- CONTADORES ---------- */
+(function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var el=e.target,n=+el.dataset.n,s=el.dataset.s||'',i=0;var t=setInterval(function(){i++;el.textContent=Math.round(n*i/30)+s;if(i>=30)clearInterval(t)},30);io.unobserve(el)})});$$('.counter b').forEach(function(b){io.observe(b)})})();
+
+/* ---------- CATÁLOGO ---------- */
+function renderFilters(){$('#filters').innerHTML=RUBROS.map(function(r){return '<button class="chip'+(r===state.filter?' on':'')+'" data-r="'+r+'">'+r+'</button>'}).join('');}
+function renderGrid(){
+  var list=SERVICIOS.filter(function(s){return state.filter==='Todos'||s.rubro===state.filter});
+  $('#grid').innerHTML=list.map(function(s){var on=state.svc.has(s.id);
+    return '<article class="card"><div class="img" data-info="'+s.id+'">'+art(s.id)+'</div><div class="body"><span class="tagpill">'+s.rubro+'</span><h3>'+s.nombre+'</h3><p>'+s.desc+'</p><div class="row"><button class="btn ghost" data-info="'+s.id+'">Ver detalle</button><button class="btn '+(on?'ghost':'primary')+'" data-add="'+s.id+'">'+(on?'✓ Agregado':'Cotizar')+'</button></div></div></article>'}).join('');
+}
+$('#filters').addEventListener('click',function(e){var b=e.target.closest('[data-r]');if(!b)return;state.filter=b.dataset.r;renderFilters();renderGrid();});
+$('#grid').addEventListener('click',function(e){
+  var i=e.target.closest('[data-info]'); if(i){openInfo(i.dataset.info);return;}
+  var a=e.target.closest('[data-add]'); if(a){toggleSvc(a.dataset.add);}
+});
+function toggleSvc(id,force){
+  if(force===true)state.svc.add(id);else if(force===false)state.svc.delete(id);else (state.svc.has(id)?state.svc.delete(id):state.svc.add(id));
+  renderGrid();syncPick();renderConds();save();
+  toast(state.svc.has(id)?'Agregado a tu cotización':'Quitado de tu cotización');
+}
+/* Modal */
+function openInfo(id){var s=SERVICIOS.find(function(x){return x.id===id});state.current=id;
+  $('#dlgImg').innerHTML=art(id);$('#dlgTag').textContent=s.rubro;$('#dlgTitle').textContent=s.nombre;$('#dlgDesc').textContent=s.desc;
+  $('#dlgList').innerHTML=s.pts.map(function(p){return '<li>'+p+'</li>'}).join('');
+  $('#dlgAdd').textContent=state.svc.has(id)?'Quitar de mi cotización':'Agregar a mi cotización';$('#dlg').showModal();}
+$('#dlgClose').onclick=function(){$('#dlg').close()};
+$('#dlg').addEventListener('click',function(e){if(e.target===this)this.close()});
+$('#dlgAdd').onclick=function(){toggleSvc(state.current);$('#dlg').close();if(state.svc.size===1)document.getElementById('cotizar').scrollIntoView();};
+
+/* ---------- FORMULARIO ---------- */
+$('select[name=region]').innerHTML='<option value="">Selecciona…</option>'+REGIONES.map(function(r){return '<option>'+r+'</option>'}).join('');
+$('#pick').innerHTML=SERVICIOS.map(function(s){return '<label><input type="checkbox" value="'+s.id+'"><span class="mini">'+art(s.id)+'</span><span>'+s.nombre+'</span></label>'}).join('');
+$('#entregables').innerHTML=ENTREGABLES.map(function(e){return '<label><input type="checkbox" name="ent" value="'+e+'"><span>'+e+'</span></label>'}).join('');
+$('#pick').addEventListener('change',function(e){if(e.target.type==='checkbox')toggleSvc(e.target.value,e.target.checked);});
+function syncPick(){$$('#pick input').forEach(function(i){i.checked=state.svc.has(i.value)});}
+function renderConds(){
+  var keep={};$$('#conds [name]').forEach(function(i){keep[i.name]=i.value});
+  $('#conds').innerHTML=Array.from(state.svc).map(function(id){var c=CONDICIONALES[id];
+    return '<div class="cond"><h4>Detalles de: '+c.t+'</h4><div class="f2">'+c.c.map(function(f){var n=id+'_'+f[0],v=keep[n]||'',h='<label>'+f[1];
+      if(f[2]==='select')h+='<select name="'+n+'">'+f[3].map(function(o){return '<option'+(o===v?' selected':'')+'>'+o+'</option>'}).join('')+'</select>';
+      else h+='<input name="'+n+'" type="'+f[2]+'" value="'+v+'" placeholder="'+(f[3]||'')+'">';
+      return h+'</label>'}).join('')+'</div></div>'}).join('');
+}
+function showStep(n){state.step=n;
+  $$('.pane').forEach(function(p){p.classList.toggle('on',+p.dataset.p===n)});
+  $$('#progress div').forEach(function(d,i){d.classList.toggle('on',i===n);d.classList.toggle('done',i<n)});
+  $('#prev').style.visibility=n===0?'hidden':'visible';
+  $('#next').style.display=n===3?'none':'inline-block';
+  if(n===3)buildSummary();
+}
+function validate(n){
+  var ok=true;
+  $$('.pane[data-p="'+n+'"] [required]').forEach(function(i){var e=i.parentElement.querySelector('.err');var bad=!i.value.trim()||(i.type==='email'&&!/^\S+@\S+\.\S+$/.test(i.value))||(i.type==='tel'&&i.value.replace(/\D/g,'').length<8);
+    i.classList.toggle('bad',bad);if(e)e.textContent=bad?(i.type==='email'?'Correo no válido':i.type==='tel'?'Teléfono no válido':'Campo obligatorio'):'';if(bad)ok=false;});
+  if(n===1){var bad=state.svc.size===0;$('#errSvc').textContent=bad?'Selecciona al menos un servicio':'';if(bad)ok=false;}
+  if(!ok){var f=$('.pane.on .bad')||$('#errSvc');f.scrollIntoView({block:'center',behavior:'smooth'});}
+  return ok;
+}
+$('#next').onclick=function(){if(validate(state.step)){showStep(state.step+1);document.getElementById('cotizar').scrollIntoView({behavior:'smooth'});}};
+$('#prev').onclick=function(){showStep(state.step-1)};
+$$('#progress div').forEach(function(d,i){d.style.cursor='pointer';d.onclick=function(){if(i<state.step)showStep(i)}});
+form.addEventListener('submit',function(e){e.preventDefault()});
+
+/* ---------- RESUMEN / ESTIMADO ---------- */
+function data(){var f=new FormData(form),o={};f.forEach(function(v,k){if(k!=='ent')o[k]=v});o.ent=f.getAll('ent');return o;}
+function buildText(){
+  var d=data(),L=[];
+  L.push('SOLICITUD DE COTIZACIÓN - '+CONFIG.empresa,'Fecha: '+new Date().toLocaleDateString('es-CL'),'');
+  L.push('== CONTACTO ==','Nombre: '+d.nombre,'Tipo de cliente: '+d.tipo,'Empresa: '+(d.empresa||'-'),'Correo: '+d.email,'Teléfono: '+d.tel,'Contacto preferido: '+d.medio,'');
+  L.push('== SERVICIOS ==');
+  Array.from(state.svc).forEach(function(id){var c=CONDICIONALES[id];L.push('* '+c.t);c.c.forEach(function(f){var v=d[id+'_'+f[0]];if(v)L.push('    - '+f[1]+': '+v)})});
+  L.push('','== UBICACIÓN Y TERRENO ==','Región: '+d.region,'Comuna: '+d.comuna,'Dirección / sector: '+d.direccion,'Coordenadas: '+(d.coord||'-'),'Superficie: '+d.sup+' '+d.unidad,'Tipo de terreno: '+d.relieve,'Acceso: '+d.acceso,'');
+  L.push('== ESPECIFICACIONES ==','Sistema de coordenadas: '+d.datum,'Precisión requerida: '+d.prec,'Uso del trabajo: '+d.uso,'Información previa: '+d.previo,'Inicio deseado: '+(d.inicio||'-'),'Plazo: '+d.plazo,'Entregables: '+(d.ent.length?d.ent.join(', '):'-'),'','Observaciones: '+(d.obs||'-'));
+  return L.join('\n');
+}
+function estimate(){
+  var d=data(),base=0;state.svc.forEach(function(id){base+=SERVICIOS.find(function(s){return s.id===id}).base});
+  var m2=+d.sup||0;if(d.unidad==='hectáreas')m2*=10000;if(d.unidad==='km lineales')m2*=3000;
+  var fs=m2>50000?1.6:m2>10000?1.3:m2>2000?1.1:1;
+  var fr={'Plano':1,'Ondulado':1.1,'Accidentado / cerro':1.3,'Con vegetación densa':1.25,'Urbano / construido':1.15}[d.relieve]||1;
+  var fp={'Referencial (±20 cm)':.9,'Alta (±2 cm)':1.25}[d.prec]||1;
+  var fu=d.plazo&&d.plazo.indexOf('Urgente')===0?1.25:1;
+  var v=base*fs*fr*fp*fu;if(state.svc.size>1)v*=.92;
+  var lo=Math.round(v*.85/10000)*10000,hi=Math.round(v*1.15/10000)*10000,f=function(n){return '$'+n.toLocaleString('es-CL')};
+  return 'Estimación referencial: <b>'+f(lo)+' – '+f(hi)+'</b> + IVA. Es solo una guía; el valor final se confirma tras revisar tu información.';
+}
+function buildSummary(){$('#summary').textContent=buildText();$('#est').innerHTML=estimate();}
+function subject(){return 'Cotización: '+Array.from(state.svc).map(function(i){return CONDICIONALES[i].t}).join(', ')}
+$('#sendMail').onclick=function(){location.href='mailto:'+CONFIG.correo+'?subject='+encodeURIComponent(subject())+'&body='+encodeURIComponent(buildText());localStorage.removeItem('topo_form');};
+$('#sendWa').onclick=function(){window.open('https://wa.me/'+CONFIG.whatsapp+'?text='+encodeURIComponent(buildText()),'_blank','noopener');};
+$('#copy').onclick=function(){navigator.clipboard.writeText(buildText()).then(function(){toast('Solicitud copiada')},function(){toast('No se pudo copiar')});};
+$('#dl').onclick=function(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([buildText()],{type:'text/plain;charset=utf-8'}));a.download='solicitud-cotizacion.txt';a.click();URL.revokeObjectURL(a.href);};
+
+/* ---------- AUTOGUARDADO ---------- */
+function save(){try{var o={};new FormData(form).forEach(function(v,k){if(k==='ent'){(o.ent=o.ent||[]).push(v)}else o[k]=v});localStorage.setItem('topo_form',JSON.stringify({d:o,svc:Array.from(state.svc)}))}catch(e){}}
+function load(){try{var s=JSON.parse(localStorage.getItem('topo_form')||'null');if(!s)return;state.svc=new Set(s.svc||[]);renderConds();
+  Object.keys(s.d).forEach(function(k){if(k==='ent')return;var el=form.elements[k];if(el&&el.type!=='checkbox')el.value=s.d[k]});
+  (s.d.ent||[]).forEach(function(v){var i=$('#entregables input[value="'+v+'"]');if(i)i.checked=true});}catch(e){}}
+form.addEventListener('input',function(){save()});form.addEventListener('change',function(){save()});
+
+/* ---------- INICIO ---------- */
+renderFilters();load();renderGrid();syncPick();showStep(0);
+</script>
+</body>
+</html>
