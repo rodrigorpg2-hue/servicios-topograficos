@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guías y preguntas frecuentes | Servicios Topográficos</title>
+<meta name="description" content="Cómo subdividir un predio, cómo hacer un KMZ en Google Earth Pro, preguntas frecuentes y créditos de imágenes.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="guias">
+<div id="hdr"></div>
+<div class="phead"><img src="" data-k="deslindes" alt="" id="pheadImg"><div class="wrap"><div class="crumb"><a href="index.html">Inicio</a> › Guías</div><h1>Guías y preguntas frecuentes</h1><p>Información útil antes de cotizar: trámites, archivos y respuestas rápidas.</p></div></div>
+<section>
+  <div class="wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab on" role="tab" data-t="loteos">Loteos y subdivisiones</button>
+      <button class="tab" role="tab" data-t="kmz">Guía KMZ</button>
+      <button class="tab" role="tab" data-t="faq">Preguntas frecuentes</button>
+      <button class="tab" role="tab" data-t="creditos">Créditos de imágenes</button>
+    </div>
+
+    <div class="tabpane on" id="loteos">
+      <h2>Subdividir un predio: urbano o rústico</h2>
+      <p class="sub">El camino de aprobación cambia según dónde está el terreno. Esto es orientativo; confirma tu caso con nosotros antes de partir.</p>
+      <div class="compare">
+        <div class="card"><div class="body"><span class="pill">Predio urbano</span><h3>Dentro del límite urbano</h3><p>Normalmente se tramita en la Dirección de Obras de la municipalidad (DOM), con plano de subdivisión y la documentación técnica que pida el municipio.</p></div></div>
+        <div class="card"><div class="body"><span class="pill">Predio rústico</span><h3>Fuera del límite urbano</h3><p>Suele requerir autorización del SAG, y la inscripción posterior en el Conservador de Bienes Raíces. Hay superficies mínimas que respetar.</p></div></div>
+        <div class="card"><div class="body"><span class="pill">Nuestro rol</span><h3>Plano y trabajo en terreno</h3><p>Levantamos el predio, calculamos los lotes, amojonamos los vértices y entregamos los planos y cuadros de superficie para tu trámite.</p><div class="row"><button class="btn small primary" data-quote="loteo">Cotizar loteo</button></div></div></div>
+      </div>
+    </div>
+
+    <div class="tabpane" id="kmz">
+      <div class="two" style="align-items:start">
+        <div>
+          <h2>Cómo marcar tu terreno en un archivo KMZ</h2>
+          <p class="sub">Un KMZ nos ayuda a ubicar y dimensionar tu predio sin visita previa. Con Google Earth Pro es muy simple.</p>
+          <ol class="kmz">
+            <li>Abre <b>Google Earth Pro</b> y busca la dirección o el sector del terreno.</li>
+            <li>Usa <b>Agregar &gt; Polígono</b> y dibuja el contorno haciendo clic en cada vértice.</li>
+            <li>Ponle un nombre (por ejemplo, el rol o el nombre del predio) y acepta.</li>
+            <li>En el panel <b>Lugares</b>, clic derecho sobre el polígono y elige <b>Guardar lugar como…</b></li>
+            <li>Selecciona el formato <b>KMZ</b> y guarda. Adjunta el archivo a tu solicitud.</li>
+          </ol>
+        </div>
+        <div class="photo" id="kmzPhoto"></div>
+      </div>
+    </div>
+
+    <div class="tabpane" id="faq">
+      <h2>Lo que más nos consultan</h2>
+      <p class="sub">Si tu duda no está aquí, escríbenos desde el cotizador.</p>
+      <details><summary>¿Qué necesito para pedir una cotización?</summary><p>Ubicación del terreno, superficie aproximada, para qué usarás el trabajo y, si tienes, planos o coordenadas. Entre más datos, más ajustada la propuesta.</p></details>
+      <details><summary>¿Cuánto demora un levantamiento?</summary><p>Depende de la superficie, el relieve y el método. Con dron, terrenos grandes se miden en horas; el procesamiento y los planos toman unos días adicionales.</p></details>
+      <details><summary>¿Qué precisión se logra?</summary><p>Según el método y el equipo: con GNSS de precisión y estación total se trabaja a nivel centimétrico. Te indicamos la precisión esperada en la propuesta.</p></details>
+      <details><summary>¿En qué formatos entregan los resultados?</summary><p>Planos en DWG y PDF, archivos KMZ para Google Earth, nubes de puntos LAS/XYZ, ortomosaicos GeoTIFF y cuadros de coordenadas en Excel.</p></details>
+      <details><summary>¿Puedo adjuntar mi información?</summary><p>Sí. En el cotizador puedes indicar los archivos que tienes (planos, KMZ, fotos) y los adjuntas al correo que se genera.</p></details>
+    </div>
+
+    <div class="tabpane" id="creditos">
+      <h2>Créditos de imágenes</h2>
+      <p class="sub">Las fotografías provienen de Wikimedia Commons y se usan según sus licencias libres (CC0, CC BY, CC BY-SA o dominio público). Cada una enlaza a su página original.</p>
+      <div class="credits" id="credits"></div>
+    </div>
+  </div>
+</section>
+
+<div id="ftr"></div>
+<script src="app.js"></script>
+</body>
+</html>
