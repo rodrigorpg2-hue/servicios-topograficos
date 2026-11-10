@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cotizar en línea | Servicios Topográficos</title>
+<meta name="description" content="Solicita tu cotización en 4 pasos con información precisa de tu terreno y los entregables que necesitas.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="cotizar">
+<div id="hdr"></div>
+<div class="phead"><img src="" data-k="hero" alt="" id="pheadImg"><div class="wrap"><div class="crumb"><a href="index.html">Inicio</a> › Cotizar</div><h1>Solicita tu cotización en línea</h1><p>Completa los 4 pasos. Tu avance se guarda en este navegador mientras escribes.</p></div></div>
+<section>
+  <div class="wrap">
+    <div class="quote">
+        <div class="progress" id="progress"><div>1. Contacto</div><div>2. Servicios</div><div>3. Terreno y entregables</div><div>4. Revisión</div></div>
+        <form id="form" novalidate>
+          <div class="pane" data-p="0">
+            <fieldset><legend>Datos de contacto</legend>
+              <div class="f2">
+                <label>Nombre completo *<input name="nombre" autocomplete="name" required><span class="err"></span></label>
+                <label>Tipo de cliente *
+                  <select name="tipo" required><option value="">Selecciona…</option><option>Particular</option><option>Empresa</option><option>Constructora / Inmobiliaria</option><option>Minería / Energía</option><option>Consultora de ingeniería</option><option>Institución pública</option></select><span class="err"></span></label>
+                <label>Empresa u organización <small>(si aplica)</small><input name="empresa" autocomplete="organization"></label>
+                <label>Correo electrónico *<input name="email" type="email" autocomplete="email" required><span class="err"></span></label>
+                <label>Teléfono / WhatsApp *<input name="tel" type="tel" autocomplete="tel" placeholder="+56 9 1234 5678" required><span class="err"></span></label>
+                <label>Medio de contacto preferido<select name="medio"><option>Correo</option><option>WhatsApp</option><option>Llamada</option></select></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="pane" data-p="1">
+            <fieldset><legend>¿Qué servicios necesitas? *</legend>
+              <div class="pick" id="pick"></div><span class="err" id="errSvc"></span>
+            </fieldset>
+          </div>
+
+          <div class="pane" data-p="2">
+            <fieldset><legend>Ubicación y terreno</legend>
+              <div class="f2">
+                <label>Región *<select name="region" required></select><span class="err"></span></label>
+                <label>Comuna *<input name="comuna" required><span class="err"></span></label>
+                <label>Dirección o sector *<input name="direccion" placeholder="Calle, ruta km, fundo, rol de avalúo…" required><span class="err"></span></label>
+                <label>Coordenadas <small>(opcional)</small><input name="coord" placeholder="-34.1700, -70.7400"></label>
+                <label>Superficie aproximada *<input name="sup" type="number" min="0" step="any" required data-skip-rental><span class="err"></span></label>
+                <label>Unidad<select name="unidad"><option>m²</option><option>hectáreas</option><option>km lineales</option></select></label>
+                <label>Tipo de terreno *<select name="relieve" required data-skip-rental><option value="">Selecciona…</option><option>Plano</option><option>Ondulado</option><option>Accidentado / cerro</option><option>Con vegetación densa</option><option>Urbano / construido</option></select><span class="err"></span></label>
+                <label>Acceso al sitio<select name="acceso"><option>Acceso vehicular directo</option><option>Camino de tierra</option><option>Solo a pie</option><option>Requiere autorización / inducción</option></select></label>
+              </div>
+            </fieldset>
+
+            <div id="conds"></div>
+
+            <fieldset><legend>Especificaciones técnicas</legend>
+              <div class="f2">
+                <label>Sistema de coordenadas<select name="datum"><option>UTM WGS84 huso 19S</option><option>UTM SIRGAS-Chile huso 19S</option><option>UTM WGS84 huso 18S</option><option>Local / a definir</option><option>No sé, que lo definan</option></select></label>
+                <label>Precisión requerida<select name="prec"><option>Estándar (±5 cm)</option><option>Alta (±2 cm)</option><option>Referencial (±20 cm)</option><option>No sé</option></select></label>
+                <label>Uso del trabajo *<select name="uso" required><option value="">Selecciona…</option><option>Permiso municipal / DOM</option><option>Proyecto de ingeniería</option><option>Compraventa / regularización</option><option>Control de avance de obra</option><option>Estudio o diagnóstico</option><option>Otro</option></select><span class="err"></span></label>
+                <label>¿Cuentas con información previa?<select name="previo"><option>No</option><option>Sí, planos en PDF</option><option>Sí, archivos DWG</option><option>Sí, archivo KMZ</option><option>Sí, levantamiento anterior</option></select></label>
+                <label>Fecha deseada de inicio<input name="inicio" type="date"></label>
+                <label>Plazo de entrega<select name="plazo"><option>Sin urgencia (2-3 semanas)</option><option>Normal (1-2 semanas)</option><option>Urgente (menos de 1 semana)</option></select></label>
+              </div>
+              <div style="margin-top:14px"><div style="font-weight:700;font-size:.86rem;margin-bottom:6px">Entregables</div><div class="pick" id="entregables"></div></div>
+              <label style="margin-top:14px">Archivos de apoyo <small>(planos, KMZ, fotos, Excel)</small>
+                <input id="files" type="file" multiple accept=".pdf,.dwg,.kmz,.kml,.xls,.xlsx,.csv,.txt,.doc,.docx,.jpg,.jpeg,.png"></label>
+              <div id="fileNames"></div>
+              <div class="hint">Por seguridad del navegador, los archivos no se envían solos: se anotan en la solicitud y los adjuntas al correo o WhatsApp.</div>
+              <label style="margin-top:14px">Observaciones<textarea name="obs" placeholder="Restricciones de horario, riesgos del sitio, hitos existentes, contacto en terreno…"></textarea></label>
+            </fieldset>
+          </div>
+
+          <div class="pane" data-p="3">
+            <fieldset><legend>Revisa tu solicitud</legend>
+              <div class="summary" id="summary"></div>
+              <div class="est" id="est"></div>
+              <div class="btns">
+                <button type="button" class="btn primary" id="sendMail">Enviar por correo</button>
+                <button type="button" class="btn ghost" id="sendWa">Enviar por WhatsApp</button>
+                <button type="button" class="btn ghost" id="copy">Copiar solicitud</button>
+                <button type="button" class="btn ghost" id="dl">Descargar (.txt)</button>
+              </div><div class="hint" id="sendHint" style="margin-top:8px"></div><div class="btns" style="margin-top:6px"><button type="button" class="btn small ghost" id="reset">Empezar de nuevo</button>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="nav-btns">
+            <button type="button" class="btn ghost" id="prev">← Anterior</button>
+            <button type="button" class="btn primary" id="next">Siguiente →</button>
+          </div>
+        </form>
+    <div id="contactBox" style="margin-top:26px"></div>
+  </div>
+</section>
+
+<div id="ftr"></div>
+<script src="app.js"></script>
+</body>
+</html>
